@@ -1,0 +1,5 @@
+import { IsInt, IsPositive, IsString, Length, IsNotEmpty, IsOptional, IsBoolean } from "class-validator";
+
+export class Create{{EntityName}}Dto {
+    {{DTOProperties}}
+}

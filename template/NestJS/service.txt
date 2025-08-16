@@ -1,0 +1,46 @@
+import { Injectable, NotFoundException } from "@nestjs/common"; 
+import { InjectRepository } from "@nestjs/typeorm"; 
+import { {{EntityName}} } from "../entities/{{FileName}}.entity"; 
+import { Repository } from "typeorm"; 
+import { Create{{EntityName}}Dto } from "../dto/create-{{FileName}}.dto"; 
+import { Update{{EntityName}}Dto } from "../dto/update-{{FileName}}.dto";
+import { PaginationDto } from "../dto/pagination.dto";
+
+@Injectable()
+export class {{EntityName}}Service {
+    constructor(
+        @InjectRepository({{EntityName}})
+        private readonly {{EntityName}}Repo: Repository<{{EntityName}}>, 
+    ) {}
+
+    async findOne(id: number){
+        const {{EntityName}} = await this.{{EntityName}}Repo.findOne({
+            where: {
+                id,
+            },
+        });
+        if(!{{EntityName}}) throw new NotFoundException(); 
+        return {{EntityName}}; 
+    }
+
+    async findAll(paginationDTO: PaginationDto){
+        return await this.{{EntityName}}Repo.find({
+            skip: paginationDTO.skip,
+            take: paginationDTO.limit ?? 10,
+        })
+    }
+
+    async create(dto: Create{{EntityName}}Dto){
+        return await this.{{EntityName}}Repo.save(dto); 
+    }
+
+    async update(id: number, dto: Update{{EntityName}}Dto){
+        return await this.{{EntityName}}Repo.update({id}, dto); 
+    }
+
+    async delete(id: number){
+        return await this.{{EntityName}}Repo.delete({
+            id,
+        });
+    }
+}

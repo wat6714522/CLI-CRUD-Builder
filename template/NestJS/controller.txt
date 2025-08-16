@@ -1,0 +1,56 @@
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Headers,
+  Param,
+  ParseBoolPipe,
+  ParseIntPipe,
+  Patch,
+  Post,
+  Query,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
+import { Create{{EntityName}}Dto } from '../dto/create-{{FileName}}.dto';
+import { Update{{EntityName}}Dto } from '../dto/update-{{FileName}}.dto';
+import { PaginationDto } from '../dto/pagination.dto';
+
+import { {{EntityName}}Service } from '../services/{{FileName}}.service';
+
+import { ParseIdPipe } from '../pipes/parse-id.pipe';
+
+@Controller('{{EntityName}}')
+export class {{EntityName}}Controller {
+    constructor(private {{EntityName}}Service: {{EntityName}}Service) {}
+
+    @Get()
+    findAll(@Query() paginationDto: PaginationDto) {
+    return this.{{EntityName}}Service.findAll(paginationDto);
+    }
+
+    @Get(':id')
+    findOne(@Param('id', ParseIntPipe) id) {
+    return this.{{EntityName}}Service.findOne(id);
+    }
+
+    @Post()
+    create(@Body() dto: Create{{EntityName}}Dto) {
+    return this.{{EntityName}}Service.create(dto);
+    }
+
+    @Patch(':id')
+    update(
+    @Param('id', ParseIdPipe) id,
+    @Body()
+    body: Update{{EntityName}}Dto,
+    ) {
+    return this.{{EntityName}}Service.update(id, body);
+    }
+
+    @Delete(':id')
+    delete(@Param('id', ParseIdPipe) id) {
+    return this.{{EntityName}}Service.delete(id);
+    }
+}

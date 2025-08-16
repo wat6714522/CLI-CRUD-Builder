@@ -1,0 +1,12 @@
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from "typeorm"; 
+
+@Entity('{{EntityName}}')
+export class {{EntityName}} {
+    {{EntityProperties}}
+
+    @CreateDateColumn()
+    createdAt:Date;
+
+    @UpdateDateColumn()
+    updatedAt: Date;
+}
