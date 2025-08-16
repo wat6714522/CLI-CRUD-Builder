@@ -1,6 +1,6 @@
-import fs from "fs";
-import csvParser from "csv-parser";
-import path from "path";
+import fs from 'fs';
+import csvParser from 'csv-parser';
+import path from 'path';
 
 export default async function readFile(filePath) {
   try {
@@ -9,13 +9,14 @@ export default async function readFile(filePath) {
     }
 
     const data = await parseCSV(filePath);
+
     return data;
   } catch (error) {
     throw new Error(`${error.message}`);
   }
 }
 
-function parseCSV(filePath, encoding = "utf8") {
+function parseCSV(filePath, encoding = 'utf8') {
   return new Promise((resolve, reject) => {
     const results = {
       records: [],
@@ -23,7 +24,7 @@ function parseCSV(filePath, encoding = "utf8") {
       metadata: {
         data: {},
         entityMapped: {},
-        primaryKeyField: "",
+        primaryKeyField: '',
         totalRecords: 0,
       },
     };
@@ -33,7 +34,7 @@ function parseCSV(filePath, encoding = "utf8") {
 
     fs.createReadStream(filePath, { encoding })
       .pipe(csvParser({ trim: true, skip_empty_lines: true }))
-      .on("data", (row) => {
+      .on('data', row => {
         // csv-parser automatically handles headers, so every row here is a data row
         // Initialize fields and columns on first data row
         if (isFirstRow) {
@@ -46,87 +47,75 @@ function parseCSV(filePath, encoding = "utf8") {
         // Process the data row
         const record = {};
 
-        Object.keys(row).forEach((field) => {
+        Object.keys(row).forEach(field => {
           const value = row[field];
           const typedValue = mapValueToType(value);
-          const mapEntity = mapToEnity(typedValue);
+          const mapEntity = mapToEntity(typedValue);
 
           record[field] = typedValue;
           results.metadata.entityMapped[field] = mapEntity;
         });
 
         const primaryKey = record[results.metadata.primaryKeyField];
+
         if (primaryKey !== null && primaryKey !== undefined) {
           results.metadata.data[primaryKey] = record;
           results.records.push(record);
           results.metadata.totalRecords++;
         }
       })
-      .on("error", (error) => {
+      .on('error', error => {
         reject(new Error(`${error.message}`));
       })
-      .on("end", () => {
+      .on('end', () => {
         console.log(`${results.metadata.entityMapped}`);
         resolve(results);
       });
   });
 }
 
-function mapToEnity(values) {
+function mapToEntity(values) {
   const type = typeof values;
+
   switch (type) {
-    case "string":
-      return "string";
-      break;
-    case "number":
-      return "number";
-      break;
-    case "boolean":
-      return "boolean";
-      break;
+    case 'string':
+      return 'string';
+    case 'number':
+      return 'number';
+    case 'boolean':
+      return 'boolean';
     case null:
-      return "null";
-      break;
-    case "":
-      return "null";
-      break;
+      return 'null';
+    case 'object':
+      return values instanceof Date ? 'date' : 'object';
+    case '':
+      return 'null';
     default:
-      return "undefined";
-      break;
+      throw new Error(`Unsupported type: ${type}`);
   }
 }
 
-export function mapValueToType(value) {
-  if (!value || value === "") {
-    return null;
-  }
-
+function mapValueToType(value) {
   const stringValue = String(value).trim();
 
-  // Handle explicit null values
   if (
-    stringValue.toLowerCase() == "null" ||
-    stringValue.toLowerCase() === "nil" ||
-    stringValue.toLowerCase() == "undefined"
+    !value ||
+    value === '' ||
+    stringValue.toLowerCase() == 'null' ||
+    stringValue.toLowerCase() == 'nil'
   ) {
     return null;
+  } else {
+    return stringValue.toLowerCase() == 'true'
+      ? true
+      : stringValue.toLowerCase() == 'false'
+        ? false
+        : /^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2}(\.\d{3})?Z?)?$/.test(stringValue)
+          ? new Date(stringValue).getTime()
+          : /^\d{13}$/.test(stringValue)
+            ? parseInt(stringValue, 10)
+            : /^-?\d*\.\d+$/.test(stringValue)
+              ? parseFloat(stringValue)
+              : 'undefined';
   }
-
-  // Handle boolean values
-  if (stringValue.toLowerCase() == "true") {
-    return true;
-  }
-  if (stringValue.toLowerCase() == "false") {
-    return false;
-  }
-
-  // Handle numbers (integer and float)
-  if (/^-?\d+$/.test(stringValue)) {
-    return parseInt(stringValue, 10);
-  }
-  if (/^-?\d*\.\d+$/.test(stringValue)) {
-    return parseFloat(stringValue);
-  }
-
-  return stringValue;
 }
