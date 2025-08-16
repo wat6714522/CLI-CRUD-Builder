@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "A cli tool that generate all files necessary for CRUD Operation on the target framework.",
   "bin": {
-    "crud-nestjs": "./bin/NestJS.js"
+    "crud": "./bin/index.js"
   },
-  "main": "./bin/NestJS.js",
+  "main": "./bin/index.js",
   "type": "module",
   "scripts": {
-    "start": "node ./bin/NestJS.js",
+    "start": "node ./bin/index.js",
     "test": "node --experimental-vm-modules ./node_modules/.bin/jest --config ./jest.config.js",
     "test:watch": "node --experimental-vm-modules ./node_modules/.bin/jest --watch --config ./jest.config.js"
   },
