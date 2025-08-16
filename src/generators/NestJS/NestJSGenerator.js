@@ -2,13 +2,13 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-import readFile from '../../utils/ReadFile.js';
 import {
   ReadTemplate,
-  toPascalCase,
   toCamelCase,
   toKebabCase,
+  toPascalCase,
 } from '../../utils/GeneratorHelper.js';
+import readFile from '../../utils/ReadFile.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -100,17 +100,21 @@ export default class NestJS {
         const isPrimaryKey = field === this.primaryKey;
 
         let decorator;
+        let isType;
 
         if (isPrimaryKey) {
           decorator = '@PrimaryGeneratedColumn()';
+          isType = type;
         } else if (type == 'date') {
           decorator = "    @Column('timestamp')";
+          isType = 'Date';
         } else {
           decorator = '    @Column()';
+          isType = type;
         }
 
         return `${decorator}
-    ${field}: ${type};`;
+    ${field}: ${isType};`;
       })
       .join('\n\n');
   }
@@ -194,6 +198,9 @@ export default class NestJS {
             }
 
             break;
+          case 'date':
+            decorators.push('@IsDateString()');
+            break;
           default:
             decorators.push('@IsBoolean()');
             break;
@@ -212,6 +219,8 @@ export default class NestJS {
         } else {
           emptyDecorators.push('@IsOptional()');
         }
+
+        const dtoType = type === 'date' ? 'string' : type;
 
         return `${decorators}
     ${integerDecorators}
