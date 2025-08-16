@@ -1,18 +1,17 @@
-import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import {
   ReadTemplate,
-  toPascalCase,
   toCamelCase,
   toKebabCase,
+  toPascalCase,
 } from '../../src/utils/GeneratorHelper';
 
 describe('Generator Utility', () => {
   const fileName = fileURLToPath(import.meta.url);
   const dirname = path.dirname(fileName);
 
-  const templatePath = path.join(dirname, '../../template/NestJS/DTO/UpdateDTO.txt');
+  const templatePath = path.join(dirname, '../../template/NestJS/DTO/update.txt');
 
   const str = 'My Name is Pawat';
 
