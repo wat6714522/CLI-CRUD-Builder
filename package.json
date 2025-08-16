@@ -1,0 +1,37 @@
+{
+  "name": "cli-crud-builder",
+  "version": "1.0.0",
+  "description": "A cli tool that generate all files necessary for CRUD Operation on the target framework.",
+  "bin": {
+    "crud-nestjs": "./bin/NestJS.js"
+  },
+  "main": "./bin/NestJS.js",
+  "type": "module",
+  "scripts": {
+    "start": "node ./bin/NestJS.js",
+    "test": "node --experimental-vm-modules ./node_modules/.bin/jest --config ./jest.config.js",
+    "test:watch": "node --experimental-vm-modules ./node_modules/.bin/jest --watch --config ./jest.config.js"
+  },
+  "dependencies": {
+    "chalk": "^5.4.1",
+    "commander": "^14.0.0",
+    "csv-parser": "^3.2.0",
+    "fs": "^0.0.1-security",
+    "fse": "^4.0.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.28.0",
+    "@babel/preset-env": "^7.28.0",
+    "babel-jest": "^30.0.5",
+    "jest": "^30.0.5"
+  },
+  "keywords": [
+    "cli",
+    "cli-tool",
+    "crud-cli",
+    "crud",
+    "boilerplate"
+  ],
+  "license": "ISC",
+  "author": "\"P&P Squad\""
+}
