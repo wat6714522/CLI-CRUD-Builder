@@ -1,6 +1,5 @@
-import fs from 'fs';
-import csvParser from 'csv-parser';
-import path from 'path';
+import csvParser from "csv-parser";
+import fs from "fs";
 
 export default async function readFile(filePath) {
   try {
@@ -16,7 +15,7 @@ export default async function readFile(filePath) {
   }
 }
 
-function parseCSV(filePath, encoding = 'utf8') {
+function parseCSV(filePath, encoding = "utf8") {
   return new Promise((resolve, reject) => {
     const results = {
       records: [],
@@ -24,7 +23,7 @@ function parseCSV(filePath, encoding = 'utf8') {
       metadata: {
         data: {},
         entityMapped: {},
-        primaryKeyField: '',
+        primaryKeyField: "",
         totalRecords: 0,
       },
     };
@@ -34,7 +33,7 @@ function parseCSV(filePath, encoding = 'utf8') {
 
     fs.createReadStream(filePath, { encoding })
       .pipe(csvParser({ trim: true, skip_empty_lines: true }))
-      .on('data', row => {
+      .on("data", (row) => {
         // csv-parser automatically handles headers, so every row here is a data row
         // Initialize fields and columns on first data row
         if (isFirstRow) {
@@ -47,7 +46,7 @@ function parseCSV(filePath, encoding = 'utf8') {
         // Process the data row
         const record = {};
 
-        Object.keys(row).forEach(field => {
+        Object.keys(row).forEach((field) => {
           const value = row[field];
           const typedValue = mapValueToType(value);
           const mapEntity = mapToEntity(typedValue);
@@ -64,10 +63,10 @@ function parseCSV(filePath, encoding = 'utf8') {
           results.metadata.totalRecords++;
         }
       })
-      .on('error', error => {
+      .on("error", (error) => {
         reject(new Error(`${error.message}`));
       })
-      .on('end', () => {
+      .on("end", () => {
         console.log(`${results.metadata.entityMapped}`);
         resolve(results);
       });
@@ -78,44 +77,46 @@ function mapToEntity(values) {
   const type = typeof values;
 
   switch (type) {
-    case 'string':
-      return 'string';
-    case 'number':
-      return 'number';
-    case 'boolean':
-      return 'boolean';
+    case "string":
+      return "string";
+    case "number":
+      return "number";
+    case "boolean":
+      return "boolean";
     case null:
-      return 'null';
-    case 'object':
-      return values instanceof Date ? 'date' : 'object';
-    case '':
-      return 'null';
+      return "null";
+    case "object":
+      return values instanceof Date ? "date" : "object";
+    case "":
+      return "null";
     default:
       throw new Error(`Unsupported type: ${type}`);
   }
 }
 
-function mapValueToType(value) {
+export function mapValueToType(value) {
   const stringValue = String(value).trim();
 
   if (
     !value ||
-    value === '' ||
-    stringValue.toLowerCase() == 'null' ||
-    stringValue.toLowerCase() == 'nil'
+    value === "" ||
+    stringValue.toLowerCase() == "null" ||
+    stringValue.toLowerCase() == "nil"
   ) {
     return null;
   } else {
-    return stringValue.toLowerCase() == 'true'
+    return stringValue.toLowerCase() == "true"
       ? true
-      : stringValue.toLowerCase() == 'false'
+      : stringValue.toLowerCase() == "false"
         ? false
-        : /^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2}(\.\d{3})?Z?)?$/.test(stringValue)
+        : /^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2}(\.\d{3})?Z?)?$/.test(
+              stringValue
+            )
           ? new Date(stringValue).getTime()
           : /^\d{13}$/.test(stringValue)
             ? parseInt(stringValue, 10)
             : /^-?\d*\.\d+$/.test(stringValue)
               ? parseFloat(stringValue)
-              : 'undefined';
+              : "undefined";
   }
 }
