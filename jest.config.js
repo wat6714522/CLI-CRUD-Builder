@@ -1,33 +1,33 @@
 export default {
   // Test environment
-  testEnvironment: "node",
+  testEnvironment: 'node',
 
   // Transform configuration for ES modules
   transform: {
-    "^.+\\.js$": "babel-jest",
+    '^.+\\.js$': 'babel-jest',
   },
 
   // Test file patterns
-  testMatch: ["**/test/**/*.test.js"],
+  testMatch: ['**/test/**/*.test.js'],
 
   // Files to ignore during testing
-  testPathIgnorePatterns: ["/node_modules/", "/template/", "/bin/output/"],
+  testPathIgnorePatterns: ['/node_modules/', '/template/', '/bin/output/'],
 
   // Coverage configuration
   collectCoverageFrom: [
-    "src/**/*.js",
-    "bin/**/*.js",
-    "!**/node_modules/**",
-    "!**/template/**",
-    "!**/coverage/**",
-    "!**/__tests__/**",
+    'src/**/*.js',
+    'bin/**/*.js',
+    '!**/node_modules/**',
+    '!**/template/**',
+    '!**/coverage/**',
+    '!**/__tests__/**',
   ],
 
   // Coverage output directory
-  coverageDirectory: "coverage",
+  coverageDirectory: 'coverage',
 
   // Coverage reporters
-  coverageReporters: ["text", "lcov", "html", "json"],
+  coverageReporters: ['text', 'lcov', 'html', 'json'],
 
   // Coverage thresholds
   coverageThreshold: {
@@ -46,7 +46,7 @@ export default {
   setupFilesAfterEnv: [],
 
   // Module file extensions
-  moduleFileExtensions: ["js", "json", "node"],
+  moduleFileExtensions: ['js', 'json', 'node'],
 
   // Clear mocks between tests
   clearMocks: true,
