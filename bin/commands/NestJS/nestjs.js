@@ -10,5 +10,3 @@ export const nestjs = new Command("NestJS")
   .addCommand(create)
   .addCommand(generate)
   .addCommand(dBconnect);
-
-nestjs.parse();
