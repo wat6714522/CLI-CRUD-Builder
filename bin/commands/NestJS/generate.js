@@ -48,7 +48,7 @@ export const generate = new Command("generate")
         - Data validation pipes. 
     
     Example:
-        1. $crud-nestjs --directory <> [csvPath] [component]
-        2. $crud-nestjs [csvPath] [component]
+        1. $crud NestJS --directory <> [csvPath] [component]
+        2. $crud NestJS [csvPath] [component]
     `
   );
