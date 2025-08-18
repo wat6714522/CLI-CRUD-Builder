@@ -1,5 +1,6 @@
 import { Command } from "commander";
 import { execSync } from "child_process";
+import { join } from "path";
 
 const dependencies = [
   "@nestjs/typeorm",
@@ -33,7 +34,7 @@ export const create = new Command("create")
 
       execSync(commandInstallDependencies, {
         stdio: "inherit",
-        cwd: `${process.cwd()}\\${projectName}`,
+        cwd: join(process.cwd(), projectName),
       });
 
       console.log("Finished Generating Project...");
@@ -46,6 +47,7 @@ export const create = new Command("create")
     "after",
     `
         Examples: 
-            $crud NestJS create [projectName]
+            $ crud NestJS create my-app
+            $ crud NestJS create my-nest-project
         `
   );
