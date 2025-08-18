@@ -23,7 +23,7 @@ import { ParseIdPipe } from '../pipes/parse-id.pipe';
 
 @Controller('{{EntityName}}')
 export class {{EntityName}}Controller {
-    constructor(private {{EntityName}}Service: {{EntityName}}Service) {}
+    constructor(private readonly {{EntityName}}Service: {{EntityName}}Service) {}
 
     @Get()
     findAll(@Query() paginationDto: PaginationDto) {
@@ -31,7 +31,7 @@ export class {{EntityName}}Controller {
     }
 
     @Get(':id')
-    findOne(@Param('id', ParseIntPipe) id) {
+    findOne(@Param('id', ParseIntPipe) id: number) {
     return this.{{EntityName}}Service.findOne(id);
     }
 
@@ -42,7 +42,7 @@ export class {{EntityName}}Controller {
 
     @Patch(':id')
     update(
-    @Param('id', ParseIdPipe) id,
+    @Param('id', ParseIdPipe) id: number,
     @Body()
     body: Update{{EntityName}}Dto,
     ) {
@@ -50,7 +50,7 @@ export class {{EntityName}}Controller {
     }
 
     @Delete(':id')
-    delete(@Param('id', ParseIdPipe) id) {
+    delete(@Param('id', ParseIdPipe) id: number) {
     return this.{{EntityName}}Service.delete(id);
     }
 }

@@ -10,36 +10,36 @@ import { PaginationDto } from "../dto/pagination.dto";
 export class {{EntityName}}Service {
     constructor(
         @InjectRepository({{EntityName}})
-        private readonly {{EntityName}}Repo: Repository<{{EntityName}}>, 
+        private readonly {{CamelCaseName}}Repository: Repository<{{EntityName}}>, 
     ) {}
 
     async findOne(id: number){
-        const {{EntityName}} = await this.{{EntityName}}Repo.findOne({
+        const {{CamelCaseName}} = await this.{{CamelCaseName}}Repository.findOne({
             where: {
                 id,
             },
         });
-        if(!{{EntityName}}) throw new NotFoundException(); 
-        return {{EntityName}}; 
+        if(!{{CamelCaseName}}) throw new NotFoundException(); 
+        return {{CamelCaseName}}; 
     }
 
-    async findAll(paginationDTO: PaginationDto){
-        return await this.{{EntityName}}Repo.find({
-            skip: paginationDTO.skip,
-            take: paginationDTO.limit ?? 10,
+    async findAll(paginationDto: PaginationDto){
+        return await this.{{CamelCaseName}}Repository.find({
+            skip: paginationDto.skip,
+            take: paginationDto.limit ?? 10,
         })
     }
 
     async create(dto: Create{{EntityName}}Dto){
-        return await this.{{EntityName}}Repo.save(dto); 
+        return await this.{{CamelCaseName}}Repository.save(dto); 
     }
 
     async update(id: number, dto: Update{{EntityName}}Dto){
-        return await this.{{EntityName}}Repo.update({id}, dto); 
+        return await this.{{CamelCaseName}}Repository.update({id}, dto); 
     }
 
     async delete(id: number){
-        return await this.{{EntityName}}Repo.delete({
+        return await this.{{CamelCaseName}}Repository.delete({
             id,
         });
     }

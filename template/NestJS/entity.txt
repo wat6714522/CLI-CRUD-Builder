@@ -5,7 +5,7 @@ export class {{EntityName}} {
     {{EntityProperties}}
 
     @CreateDateColumn()
-    createdAt:Date;
+    createdAt: Date;
 
     @UpdateDateColumn()
     updatedAt: Date;
