@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A cli tool that generate all files necessary for CRUD Operation on the target framework.",
   "bin": {
-    "crud-nestjs": "./bin/NestJS.js"
+    "crud": "./bin/index.js"
   },
   "main": "./bin/NestJS.js",
   "type": "module",
