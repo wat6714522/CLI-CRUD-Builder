@@ -39,6 +39,14 @@ function parseCSV(filePath, encoding = "utf8") {
         if (isFirstRow) {
           results.fields = Object.keys(row);
           results.metadata.primaryKeyField = Object.keys(row)[0];
+          
+          // Infer types from the first row only
+          Object.keys(row).forEach((field) => {
+            const value = row[field];
+            const typedValue = mapValueToType(value);
+            const mapEntity = mapToEntity(typedValue);
+            results.metadata.entityMapped[field] = mapEntity;
+          });
 
           isFirstRow = false;
         }
@@ -49,10 +57,7 @@ function parseCSV(filePath, encoding = "utf8") {
         Object.keys(row).forEach((field) => {
           const value = row[field];
           const typedValue = mapValueToType(value);
-          const mapEntity = mapToEntity(typedValue);
-
           record[field] = typedValue;
-          results.metadata.entityMapped[field] = mapEntity;
         });
 
         const primaryKey = record[results.metadata.primaryKeyField];
@@ -104,19 +109,34 @@ export function mapValueToType(value) {
     stringValue.toLowerCase() == "nil"
   ) {
     return null;
-  } else {
-    return stringValue.toLowerCase() == "true"
-      ? true
-      : stringValue.toLowerCase() == "false"
-        ? false
-        : /^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2}(\.\d{3})?Z?)?$/.test(
-              stringValue,
-            )
-          ? new Date(stringValue).getTime()
-          : /^\d{13}$/.test(stringValue)
-            ? parseInt(stringValue, 10)
-            : /^-?\d*\.\d+$/.test(stringValue)
-              ? parseFloat(stringValue)
-              : "undefined";
+  } 
+  
+  // Check for boolean values first
+  if (stringValue.toLowerCase() === "true") {
+    return true;
   }
+  if (stringValue.toLowerCase() === "false") {
+    return false;
+  }
+  
+  // Check for date values
+  if (/^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2}(\.\d{3})?Z?)?$/.test(stringValue)) {
+    return new Date(stringValue).getTime();
+  }
+  
+  // Check for numeric values (integers and decimals)
+  if (/^-?\d+$/.test(stringValue)) {
+    return parseInt(stringValue, 10);
+  }
+  if (/^-?\d*\.\d+$/.test(stringValue)) {
+    return parseFloat(stringValue);
+  }
+  
+  // Check for timestamp values (13 digits)
+  if (/^\d{13}$/.test(stringValue)) {
+    return parseInt(stringValue, 10);
+  }
+  
+  // Default to string for everything else
+  return stringValue;
 }
