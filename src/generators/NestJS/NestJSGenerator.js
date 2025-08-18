@@ -97,7 +97,11 @@ export default class NestJS {
   }
 
   GenerateEntityProperties() {
+    // Filter out common timestamp fields that are auto-generated
+    const timestampFields = ['createdAt', 'updatedAt', 'created_at', 'updated_at'];
+    
     return this.fields
+      .filter((field) => !timestampFields.includes(field))
       .map((field) => {
         const sampleValue = this.csvData.records[0]?.[field];
         const type = this.csvData.metadata.entityMapped[field];
@@ -108,7 +112,7 @@ export default class NestJS {
 
         if (isPrimaryKey) {
           decorator = "@PrimaryGeneratedColumn()";
-          isType = type;
+          isType = "number";
         } else if (type == "date") {
           decorator = "    @Column('timestamp')";
           isType = "Date";
@@ -138,7 +142,7 @@ export default class NestJS {
       );
     }
 
-    console.info(`Generated Content: ${content}`);
+    // Debug: console.info(`Generated Content: ${content}`);
 
     return content;
   }
@@ -182,8 +186,11 @@ export default class NestJS {
   }
 
   GenerateDTOProperties() {
+    // Filter out primary key and common timestamp fields
+    const timestampFields = ['createdAt', 'updatedAt', 'created_at', 'updated_at'];
+    
     return this.fields
-      .filter((field) => field !== this.primaryKey)
+      .filter((field) => field !== this.primaryKey && !timestampFields.includes(field))
       .map((field) => {
         const sampleValue = this.csvData.records[0]?.[field];
         const type = this.csvData.metadata.entityMapped[field];
@@ -221,7 +228,10 @@ export default class NestJS {
 
         let emptyDecorators = [];
 
-        if (!isEmpty) {
+        // For boolean fields, don't use @IsNotEmpty as it doesn't make sense
+        if (type === "boolean") {
+          emptyDecorators.push("@IsOptional()");
+        } else if (!isEmpty) {
           emptyDecorators.push("@IsNotEmpty()");
         } else {
           emptyDecorators.push("@IsOptional()");
@@ -253,7 +263,7 @@ export default class NestJS {
       );
     }
 
-    console.log(`Generated Template:\n ${content}`);
+    // Debug: console.log(`Generated Template:\n ${content}`);
 
     return content;
   }
@@ -392,6 +402,7 @@ export default class NestJS {
     const variables = {
       "{{EntityName}}": this.EntityName.toPascalCase,
       "{{FileName}}": this.EntityName.toKebabCase,
+      "{{CamelCaseName}}": this.EntityName.toCamelCase,
     };
 
     let content = String(template);
@@ -403,7 +414,7 @@ export default class NestJS {
       );
     }
 
-    console.log(`Generated Content: ${content}`);
+    // Debug: console.log(`Generated Content: ${content}`);
 
     return content;
   }
