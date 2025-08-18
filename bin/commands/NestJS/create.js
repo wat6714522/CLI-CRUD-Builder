@@ -46,6 +46,6 @@ export const create = new Command("create")
     "after",
     `
         Examples: 
-            $crud-builder build [projectName]
+            $crud NestJS create [projectName]
         `
   );
