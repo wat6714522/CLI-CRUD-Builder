@@ -30,9 +30,9 @@ export const dBconnect = new Command("connect")
     "after",
     `
         Examples: 
-            1. $crud-builder connect --directory <filePath>
-            2. $crud-builder connect --directory <filePath> --envPath <filePath> 
-            3. $crud-builder connect
+            1. $crud NestJS connect --directory <filePath>
+            2. $crud NestJS connect --directory <filePath> --envPath <filePath> 
+            3. $crud NestJS connect
 
           The .env file should contain following variable with exact names:
             1. DB_TYPE
