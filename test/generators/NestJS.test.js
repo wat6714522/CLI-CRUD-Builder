@@ -128,7 +128,7 @@ describe("NestJS Generator", () => {
       expect(createDTOContent[1]).not.toContain("{{DTOProperties}}");
       expect(createDTOContent[1]).not.toContain("{{EntityName}}");
       expect(createDTOContent[1]).toContain(
-        "import {IsInt, IsPositive, IsString, Length, IsNotEmpty, IsOptional, IsBoolean}",
+        "import {IsInt, IsPositive, IsString, Length, IsNotEmpty, IsOptional, IsBoolean}"
       );
       expect(createDTOContent[1]).toContain("class-validator");
       expect(createDTOContent[1]).toContain("export class CreateProductDTO");
@@ -140,7 +140,7 @@ describe("NestJS Generator", () => {
       expect(updateDTOContent[1]).toContain("{ CreateProductDTO }");
       expect(updateDTOContent[1]).toContain("./CreateProduct.dto.ts");
       expect(updateDTOContent[1]).toContain(
-        "export class UpdateProductDTO extends PartialType(CreateProductDTO){}",
+        "export class UpdateProductDTO extends PartialType(CreateProductDTO){}"
       );
       expect(updateDTOContent[1]).not.toContain("{{EntityName}}");
 
@@ -156,7 +156,7 @@ describe("NestJS Generator", () => {
       const paginationContent = fs.promises.writeFile.mock.calls[3];
 
       expect(paginationContent[1]).toContain(
-        "import { IsInt, IsOptional, IsPositive } from ",
+        "import { IsInt, IsOptional, IsPositive } from "
       );
       expect(paginationContent[1]).toContain("class-validator");
     });
@@ -193,25 +193,25 @@ describe("NestJS Generator", () => {
       expect(fs.promises.writeFile).toHaveBeenCalledWith(
         createDtoFilePath[0],
         expect.any(String),
-        "utf8",
+        "utf8"
       );
 
       expect(fs.promises.writeFile).toHaveBeenCalledWith(
         updateDtoFilePath[0],
         expect.any(String),
-        "utf-8",
+        "utf-8"
       );
 
       expect(fs.promises.writeFile).toHaveBeenCalledWith(
         idParamDtoFilePath[0],
         expect.any(String),
-        "utf-8",
+        "utf-8"
       );
 
       expect(fs.promises.writeFile).toHaveBeenCalledWith(
         paginationDtoFilePath[0],
         expect.any(String),
-        "utf-8",
+        "utf-8"
       );
     });
   });
@@ -226,7 +226,7 @@ describe("NestJS Generator", () => {
       expect(entityContent[1]).not.toContain("{{EntityProperties}}");
 
       expect(entityContent[1]).toContain(
-        "{Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn}",
+        "{Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn}"
       );
       expect(entityContent[1]).toContain("typeorm");
     });
@@ -265,7 +265,7 @@ describe("NestJS Generator", () => {
       expect(fs.promises.writeFile).toHaveBeenCalledWith(
         entityContent[0],
         expect.any(String),
-        "utf8",
+        "utf8"
       );
     });
 
@@ -311,29 +311,29 @@ describe("NestJS Generator", () => {
       expect(fs.promises.writeFile).toHaveBeenCalledWith(
         parseIDPipe[0],
         expect.any(String),
-        "utf8",
+        "utf8"
       );
       expect(fs.promises.writeFile).toHaveBeenCalledWith(
         parseBoolPipe[0],
         expect.any(String),
-        "utf8",
+        "utf8"
       );
       expect(fs.promises.writeFile).toHaveBeenCalledWith(
         parseArrayPipe[0],
         expect.any(String),
-        "utf8",
+        "utf8"
       );
 
       expect(fs.promises.writeFile).toHaveBeenCalledWith(
         parseUuidPipe[0],
         expect.any(String),
-        "utf8",
+        "utf8"
       );
 
       expect(fs.promises.writeFile).toHaveBeenCalledWith(
         requestHeaderPipe[0],
         expect.any(String),
-        "utf8",
+        "utf8"
       );
     });
 
@@ -360,7 +360,7 @@ describe("NestJS Generator", () => {
 
       expect(controllerContent[1]).toContain("@Controller('property')");
       expect(controllerContent[1]).toContain(
-        "export class PropertyController ",
+        "export class PropertyController "
       );
 
       expect(controllerContent[1]).toContain("@Get()");
@@ -398,13 +398,13 @@ describe("NestJS Generator", () => {
 
       expect(serviceContent[1]).toContain("async findOne(id: number)");
       expect(serviceContent[1]).toContain(
-        "async findAll(paginationDTO: PaginationDTO)",
+        "async findAll(paginationDTO: PaginationDTO)"
       );
       expect(serviceContent[1]).toContain(
-        "async create(dto: CreateProductDTO)",
+        "async create(dto: CreateProductDTO)"
       );
       expect(serviceContent[1]).toContain(
-        "async update(id: number, dto: UpdateProductDTO)",
+        "async update(id: number, dto: UpdateProductDTO)"
       );
       expect(serviceContent[1]).toContain("async delete(id: number)");
     });
@@ -417,7 +417,7 @@ describe("NestJS Generator", () => {
       expect(fs.promises.writeFile).toHaveBeenCalledWith(
         serviceContent[0],
         expect.any(String),
-        "utf8",
+        "utf8"
       );
     });
 
@@ -429,7 +429,7 @@ describe("NestJS Generator", () => {
         outDirectory,
         {
           recursive: true,
-        },
+        }
       );
     });
   });
@@ -507,14 +507,16 @@ export class ProductModule {}`);
       expect(fs.promises.writeFile).toHaveBeenCalledWith(
         dBConfigContent[0],
         expect.any(String),
-        "utf8",
+        "utf8"
       );
     });
 
     it("Should successfully creaate configuration directory", async () => {
       await NestJSGenerator.GenerateDBConnect();
 
-      expect(fs.promises.mkdir).toHaveBeenCalledWith(outDirectory, {
+      const outputPath = path.join(outDirectory, "configs");
+
+      expect(fs.promises.mkdir).toHaveBeenCalledWith(outputPath, {
         recursive: true,
       });
     });
