@@ -1,6 +1,16 @@
+<<<<<<< HEAD
 node_modules/
+=======
+bin/.DS_Store
+bin/commands/.DS_Store
+node_modules/
+test/generators/__snapshots__/NestJS.test.js.snap
+>>>>>>> NestJS-command
 src/.DS_Store
 src/generators/.DS_Store
 test/.DS_Store
 .DS_Store
+<<<<<<< HEAD
 test/generators/__snapshots__/NestJS.test.js.snap
+=======
+>>>>>>> NestJS-command
