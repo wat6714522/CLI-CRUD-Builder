@@ -23,12 +23,9 @@
     "@babel/core": "^7.28.0",
     "@babel/preset-env": "^7.28.0",
     "babel-jest": "^30.0.5",
-<<<<<<< HEAD
     "eslint": "^9.33.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
-=======
->>>>>>> NestJS-core
     "jest": "^30.0.5",
     "prettier": "^3.6.2"
   },
