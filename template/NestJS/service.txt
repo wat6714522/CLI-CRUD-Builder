@@ -14,11 +14,7 @@ export class {{EntityName}}Service {
     ) {}
 
     async findOne(id: number){
-        const {{CamelCaseName}} = await this.{{CamelCaseName}}Repository.findOne({
-            where: {
-                id,
-            },
-        });
+        const {{CamelCaseName}} = await this.{{CamelCaseName}}Repository.findOneBy({ id });
         if(!{{CamelCaseName}}) throw new NotFoundException(); 
         return {{CamelCaseName}}; 
     }
