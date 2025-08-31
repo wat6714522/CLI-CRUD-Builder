@@ -1,14 +1,15 @@
 import { Command } from "commander";
 import NestJS from "../../../src/generators/NestJS/NestJSGenerator.js";
 
-export const dBconnect = new Command("connect")
+export const dBconnect = new Command()
+  .name("connect")
   .description("A command that initailize the project for target framework")
   .option(
-    "--directory <path>, -d",
+    "-d, --directory <filePath>",
     "Specify the output path of the database config file."
   )
   .option(
-    "--envPath <path>, -e",
+    "-e, --envPath <filePath>",
     "Specify the path of the .env file of database environment variable"
   )
   .action((opts) => {
@@ -30,9 +31,9 @@ export const dBconnect = new Command("connect")
     "after",
     `
         Examples: 
-            1. $crud NestJS connect --directory <filePath>
-            2. $crud NestJS connect --directory <filePath> --envPath <filePath> 
-            3. $crud NestJS connect
+            $ crud nestjs connect --directory <filePath>
+            $ crud nestjs connect --directory <filePath> --envPath <filePath> 
+            $ crud nestjs connect
 
           The .env file should contain following variable with exact names:
             1. DB_TYPE

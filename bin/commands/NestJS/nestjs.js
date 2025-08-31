@@ -3,10 +3,9 @@ import { dBconnect } from "./connect.js";
 import { generate } from "./generate.js";
 import { create } from "./create.js";
 
-export const nestjs = new Command("NestJS")
-  .name("NestJS")
+export const nestjs = new Command()
+  .name("nestjs")
   .description("CLIs for NestJS.")
-  .version("1.0.0")
   .addCommand(create)
   .addCommand(generate)
   .addCommand(dBconnect);

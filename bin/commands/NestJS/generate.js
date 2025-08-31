@@ -1,12 +1,13 @@
 import { Command } from "commander";
 import NestJS from "../../../src/generators/NestJS/NestJSGenerator.js";
 
-export const generate = new Command("generate")
+export const generate = new Command()
+  .name("generate")
   .description(
     "A command that generate all files neccessary for CRUD operations"
   )
   .option(
-    "--directory <filePath>, -d",
+    "-d, --directory <filePath>",
     "Specify directory to create the project in."
   )
   .argument("<csvPath>", "Specify the directory of the CSV File.")
@@ -48,7 +49,7 @@ export const generate = new Command("generate")
         - Data validation pipes. 
     
     Example:
-        1. $crud NestJS --directory <> [csvPath] [component]
-        2. $crud NestJS [csvPath] [component]
+        $ crud nestjs --directory <filePath> [csvPath] [component]
+        $ crud nestjs [csvPath] [component]
     `
   );

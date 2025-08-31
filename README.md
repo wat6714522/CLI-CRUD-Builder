@@ -78,7 +78,7 @@ The project have three following commands:
 3. **dBConnect** generate config file for database connection
 
 ```bash
-  crud-nestjs create <projectName>
+  crud nestjs create <projectName>
 ```
 
 #### Argument
@@ -86,7 +86,7 @@ The project have three following commands:
 `projectName`: Specify the project name of your project.
 
 ```bash
-  crud-nestjs generate [options] <csvPath> <component>
+  crud nestjs generate [options] <csvPath> <component>
 ```
 
 #### Argument
@@ -96,16 +96,16 @@ The project have three following commands:
 
 #### Options
 
-- `directory`: Specify the output directory of your generated components.
+- `-d, --directory <filePath>`: Specify the output directory of your generated components.
 
 ```bash
-  crud-nestjs connect [options]
+  crud nestjs connect [options]
 ```
 
 **Options:**
 
-- `-d, --directory <path>`: Specify the output path for the database config file
-- `-e, --envPath <path>`: Specify the path of the .env file containing database environment variables
+- `-d, --directory <filePath>`: Specify the output path for the database config file
+- `-e, --envPath <filePath>`: Specify the path of the .env file containing database environment variables
 
 **Required Environment Variables:**
 Your `.env` file should contain the following variables:
@@ -123,19 +123,19 @@ DB_NAME
 
 ```bash
   # Create command
-  crud-nestjs create MyApp
+  crud nestjs create MyApp
 
   # Connect command
-  crud-nestjs connect --directory ./MyApp/src
+  crud nestjs connect --directory ./MyApp/src
 
   # Generate command
-  crud-nestjs generate --directory ./MyApp/src Entity
+  crud nestjs generate --directory ./MyApp/src Entity
 ```
 
 ### 3. Generate CRUD Components
 
 ```bash
-crud-nestjs generate <csvPath> <component> [options]
+crud nestjs generate <csvPath> <component> [options]
 ```
 
 ## CSV Schema Format
