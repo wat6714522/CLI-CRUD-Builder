@@ -11,7 +11,8 @@ const dependencies = [
   "typeorm",
 ];
 
-export const create = new Command("create")
+export const create = new Command()
+  .name("create")
   .description("A command that create the project for NestJS framework")
   .argument("<projectName>", "Specify the name of the project")
   .action((projectName) => {
@@ -47,7 +48,7 @@ export const create = new Command("create")
     "after",
     `
         Examples: 
-            $ crud NestJS create my-app
-            $ crud NestJS create my-nest-project
+            $ crud nestjs create my-app
+            $ crud nestjs create my-nest-project
         `
   );

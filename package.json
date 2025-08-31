@@ -1,6 +1,6 @@
 {
   "name": "cli-crud-builder",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A cli tool that generate all files necessary for CRUD Operation on the target framework.",
   "bin": {
     "crud": "./bin/index.js"
